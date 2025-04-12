@@ -2,10 +2,10 @@ package lezhin.lezhintest.domain
 
 import java.time.LocalDateTime
 
-class WebtoonHistory(
+data class Payment(
     val id: Long,
     val webtoonId: Long,
-    val userId: Long,
+    val paymentType: PaymentType,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
 )

@@ -1,10 +1,11 @@
 package lezhin.lezhintest.domain
 
-class Event {
+import java.time.LocalDateTime
 
-    // id
-
-    // 이벤트 명
-
-    // 이벤트 시작일, 종료일
+data class Event(
+    val id: Long,
+    val name: String,
+    val startAt: LocalDateTime,
+    val endAt: LocalDateTime,
+) {
 }

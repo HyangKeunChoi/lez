@@ -1,11 +1,10 @@
 package lezhin.lezhintest.domain
 
-class Webtoon {
-    // id
+import java.time.LocalDateTime
 
-    // name
-
-    // 유료 무료
-
-    // created_at
-}
+class Webtoon(
+    val id: Long,
+    val name: String,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime,
+)
