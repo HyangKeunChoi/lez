@@ -1,7 +1,10 @@
 package lezhin.lezhintest.feature.webtoon.controller
 
+import jakarta.validation.constraints.NegativeOrZero
 import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.Positive
 import lezhin.lezhintest.feature.webtoon.controller.dto.WebtoonHistoryResponse
+import lezhin.lezhintest.feature.webtoon.controller.dto.WebtoonInfoResponse
 import lezhin.lezhintest.feature.webtoon.service.WebtoonService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
@@ -21,30 +24,31 @@ class WebtoonController(
     // slice
     @GetMapping("/{webtoonId}/history")
     fun getHistory(
-        @PathVariable @NotNull webtoonId: Long,
+        @PathVariable
+        @NotNull(message = "필수값입니다.")
+        webtoonId: Long,
+
         @PageableDefault(page = 0, size = 10, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable
     ): ResponseEntity<Slice<WebtoonHistoryResponse>> {
         val result = webtoonService.getHistories(webtoonId, pageable)
         return ResponseEntity.ok(result)
     }
 
-    // redis sorted set
     @GetMapping("/popular")
-    fun getPopular() {
-
+    fun getPopular(): ResponseEntity<List<WebtoonInfoResponse>> {
+        return ResponseEntity.ok().body(webtoonService.getPopular())
     }
 
     @PostMapping("/{webtoonId}/purchase")
-    fun purchaseWebtoon(
+    fun purchase(
         @PathVariable @NotNull webtoonId: Long
     ) {
-
+        webtoonService.purchase(webtoonId)
     }
 
-    // redis sorted set
     @GetMapping("/purchased/popular")
-    fun getPurchasedPopular() {
-
+    fun getPopularPurchased() {
+//        webtoonService.getPopularPurchased()
     }
 
     @DeleteMapping("/{webtoonId}")

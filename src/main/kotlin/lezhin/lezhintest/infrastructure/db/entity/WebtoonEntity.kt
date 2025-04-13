@@ -1,6 +1,7 @@
 package lezhin.lezhintest.infrastructure.db.entity
 
 import jakarta.persistence.*
+import lezhin.lezhintest.domain.Webtoon
 import lezhin.lezhintest.infrastructure.db.AbstractAuditEntity
 
 @Entity
@@ -10,5 +11,11 @@ class WebtoonEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     val name: String,
-): AbstractAuditEntity() {
+) : AbstractAuditEntity() {
+    fun toModel() = Webtoon(
+        id = id,
+        name = name,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+    )
 }

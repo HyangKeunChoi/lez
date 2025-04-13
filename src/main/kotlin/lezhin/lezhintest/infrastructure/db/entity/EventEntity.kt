@@ -1,6 +1,7 @@
 package lezhin.lezhintest.infrastructure.db.entity
 
 import jakarta.persistence.*
+import lezhin.lezhintest.domain.Event
 import lezhin.lezhintest.infrastructure.db.AbstractAuditEntity
 import java.time.LocalDateTime
 
@@ -13,5 +14,13 @@ class EventEntity(
     val name: String,
     val startAt: LocalDateTime,
     val endAt: LocalDateTime,
-): AbstractAuditEntity() {
+) : AbstractAuditEntity() {
+    fun toModel() = Event(
+        id = id,
+        name = name,
+        startAt = startAt,
+        endAt = endAt,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+    )
 }

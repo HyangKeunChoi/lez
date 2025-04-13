@@ -7,5 +7,12 @@ data class Event(
     val name: String,
     val startAt: LocalDateTime,
     val endAt: LocalDateTime,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime,
 ) {
+    val isOngoing: Boolean
+        get() {
+            val now = LocalDateTime.now()
+            return startAt.isBefore(now) && endAt.isBefore(now)
+        }
 }
