@@ -87,8 +87,16 @@ class WebtoonService(
         )
     }
 
+    fun getPopularPurchased(): List<WebtoonInfoResponse> {
+        val popularPurchasedWebtoonIds = redisTemplate.opsForZSet()
+            .reverseRangeWithScores(POPULAR_PURCHASED_CACHE_KEY_PREFIX, POPULAR_START_INDEX, POPULAR_END_INDEX)
+
+        return popularPurchasedWebtoonIds?.let { getWebtoonInfo(it) } ?: emptyList()
+    }
+
     companion object {
         const val POPULAR_FAVORITE_CACHE_KEY_PREFIX = "popular:cache"
+        const val POPULAR_PURCHASED_CACHE_KEY_PREFIX = "popular:purchase:cache"
         const val POPULAR_START_INDEX = 0L
         const val POPULAR_END_INDEX = 9L
     }

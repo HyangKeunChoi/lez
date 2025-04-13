@@ -47,8 +47,8 @@ class WebtoonController(
     }
 
     @GetMapping("/purchased/popular")
-    fun getPopularPurchased() {
-//        webtoonService.getPopularPurchased()
+    fun getPopularPurchased(): ResponseEntity<List<WebtoonInfoResponse>> {
+        return ResponseEntity.ok().body(webtoonService.getPopularPurchased())
     }
 
     @DeleteMapping("/{webtoonId}")
