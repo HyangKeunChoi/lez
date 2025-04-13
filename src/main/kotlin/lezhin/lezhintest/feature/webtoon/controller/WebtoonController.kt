@@ -1,7 +1,13 @@
 package lezhin.lezhintest.feature.webtoon.controller
 
 import jakarta.validation.constraints.NotNull
+import lezhin.lezhintest.feature.webtoon.controller.dto.WebtoonHistoryResponse
 import lezhin.lezhintest.feature.webtoon.service.WebtoonService
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
+import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
@@ -15,9 +21,11 @@ class WebtoonController(
     // slice
     @GetMapping("/{webtoonId}/history")
     fun getHistory(
-        @PathVariable @NotNull webtoonId: Long
-    ) {
-
+        @PathVariable @NotNull webtoonId: Long,
+        @PageableDefault(page = 0, size = 10, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable
+    ): ResponseEntity<Slice<WebtoonHistoryResponse>> {
+        val result = webtoonService.getHistories(webtoonId, pageable)
+        return ResponseEntity.ok(result)
     }
 
     // redis sorted set

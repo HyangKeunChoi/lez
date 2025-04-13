@@ -1,7 +1,7 @@
 package lezhin.lezhintest.infrastructure.db.repository.payment
 
-import lezhin.lezhintest.domain.Payment
+import lezhin.lezhintest.infrastructure.db.entity.PaymentEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface PaymentJpaRepository: JpaRepository<Payment, Long> {
+interface PaymentJpaRepository: JpaRepository<PaymentEntity, Long> {
 }
