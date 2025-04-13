@@ -43,3 +43,5 @@ data:
         init:
         data-locations: classpath:db/data.sql
         schema-locations: classpath:db/schema.sql
+jwt:
+    secret: 9fjbqqtGuzKsG128kuLcu1mAtd7/DX2bkY4CYLtOoKc=
