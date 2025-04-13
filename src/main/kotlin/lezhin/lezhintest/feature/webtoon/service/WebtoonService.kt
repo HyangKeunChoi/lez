@@ -7,10 +7,12 @@ import lezhin.lezhintest.infrastructure.db.repository.event.IEventRepository
 import lezhin.lezhintest.infrastructure.db.repository.payment.IPaymentRepository
 import lezhin.lezhintest.infrastructure.db.repository.webtoon.IWebtoonRepository
 import lezhin.lezhintest.infrastructure.db.repository.webtoonHistory.IWebtoonHistoryRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.data.redis.core.ZSetOperations
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,7 +23,8 @@ class WebtoonService(
     val webtoonHistoryRepository: IWebtoonHistoryRepository,
     val eventRepository: IEventRepository,
     val paymentRepository: IPaymentRepository,
-    private val redisTemplate: StringRedisTemplate,
+    val redisTemplate: StringRedisTemplate,
+    val jdbcTemplate: JdbcTemplate,
 ) {
     fun getHistories(
         webtoonId: Long,
@@ -94,10 +97,31 @@ class WebtoonService(
         return popularPurchasedWebtoonIds?.let { getWebtoonInfo(it) } ?: emptyList()
     }
 
+    @Transactional
+    fun delete(webtoonId: Long) {
+        var page = 0
+        while (true) {
+            val pageRequest = PageRequest.of(page, DELETE_CHUNK_SIZE)
+            val idsToDeletePage = webtoonHistoryRepository.findIdsByWebtoonId(webtoonId, pageRequest)
+            val idsToDelete = idsToDeletePage.content
+            if (idsToDelete.isEmpty()) {
+                break
+            }
+
+            val deleteSql = "DELETE FROM webtoon_history WHERE id IN (:ids)"
+            val namedParameters = mapOf("ids" to idsToDelete)
+            jdbcTemplate.update(deleteSql, namedParameters)
+
+            page++
+        }
+        webtoonRepository.deleteById(webtoonId)
+    }
+
     companion object {
         const val POPULAR_FAVORITE_CACHE_KEY_PREFIX = "popular:cache"
         const val POPULAR_PURCHASED_CACHE_KEY_PREFIX = "popular:purchase:cache"
         const val POPULAR_START_INDEX = 0L
         const val POPULAR_END_INDEX = 9L
+        const val DELETE_CHUNK_SIZE = 1000
     }
 }

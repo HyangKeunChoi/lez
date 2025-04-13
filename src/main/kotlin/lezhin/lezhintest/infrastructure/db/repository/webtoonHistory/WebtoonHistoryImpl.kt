@@ -1,6 +1,7 @@
 package lezhin.lezhintest.infrastructure.db.repository.webtoonHistory
 
 import lezhin.lezhintest.domain.WebtoonHistory
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Repository
@@ -17,5 +18,9 @@ class WebtoonHistoryImpl(
             webtoonId = webtoonId,
             pageable = pageable
         ).map { it.toModel() }
+    }
+
+    override fun findIdsByWebtoonId(webtoonId: Long, pageable: Pageable): Page<Long> {
+        return webtoonHistoryJpaRepository.findIdsByWebtoonId(webtoonId, pageable)
     }
 }

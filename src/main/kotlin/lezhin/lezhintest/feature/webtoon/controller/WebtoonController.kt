@@ -1,8 +1,6 @@
 package lezhin.lezhintest.feature.webtoon.controller
 
-import jakarta.validation.constraints.NegativeOrZero
 import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Positive
 import lezhin.lezhintest.feature.webtoon.controller.dto.WebtoonHistoryResponse
 import lezhin.lezhintest.feature.webtoon.controller.dto.WebtoonInfoResponse
 import lezhin.lezhintest.feature.webtoon.service.WebtoonService
@@ -21,7 +19,6 @@ class WebtoonController(
     private val webtoonService: WebtoonService,
 ) {
 
-    // slice
     @GetMapping("/{webtoonId}/history")
     fun getHistory(
         @PathVariable
@@ -52,7 +49,9 @@ class WebtoonController(
     }
 
     @DeleteMapping("/{webtoonId}")
-    fun deleteWebtoon() {
-
+    fun deleteWebtoon(
+        @PathVariable @NotNull webtoonId: Long
+    ) {
+        webtoonService.delete(webtoonId)
     }
 }

@@ -10,4 +10,8 @@ class WebtoonRepositoryImpl(
     override fun findAllByIdIn(ids: List<Long>): List<Webtoon> {
         return webtoonJpaRepository.findAllByIdIn(ids).map { it.toModel() }
     }
+
+    override fun deleteById(id: Long) {
+        return webtoonJpaRepository.deleteById(id)
+    }
 }

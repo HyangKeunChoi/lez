@@ -8,6 +8,15 @@ spring:
         driver-class-name: org.h2.Driver
         username: sa
         password:
+        hikari:
+            maximum-pool-size: 20
+            connection-timeout: 3000
+            data-source-properties:
+                rewriteBatchedStatements: true
+                prepStmtCacheSize: 250
+                prepStmtCacheSqlLimit: 2048
+                cachePrepStmts: true
+                useServerPrepStmts: true
     h2:
         console:
             enabled: true
