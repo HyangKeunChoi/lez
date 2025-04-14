@@ -61,6 +61,7 @@ class JwtTokenProvider {
             getClaims(token)
             return true
         } catch (e: Exception) {
+            println("Token validation failed: ${e.javaClass.simpleName} - ${e.message}")
             when (e) {
                 is SecurityException -> {}
                 is MalformedJwtException -> {}
