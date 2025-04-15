@@ -43,7 +43,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { auth ->
-                auth.requestMatchers("/api/v1/random/token").permitAll() // 토큰 발급 API는 인증 없이 접근 가능하도록 설정
+                auth.requestMatchers("/api/v1/random/token", "/h2-console/**").permitAll() // 토큰 발급 API는 인증 없이 접근 가능하도록 설정
                     .anyRequest().authenticated()
             }
             .addFilterBefore(

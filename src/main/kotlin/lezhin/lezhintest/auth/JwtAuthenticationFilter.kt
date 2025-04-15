@@ -11,13 +11,13 @@ import org.springframework.web.filter.GenericFilterBean
 class JwtAuthenticationFilter(
     private val jwtTokenProvider: JwtTokenProvider
 ): GenericFilterBean() {
-    override fun doFilter(request: ServletRequest?, resposne: ServletResponse?, chain: FilterChain?) {
+    override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
         val token = resolveToken(request as HttpServletRequest)
         if (token != null && jwtTokenProvider.validateToken(token)) {
             val authentication = jwtTokenProvider.getAuthentication(token)
             SecurityContextHolder.getContext().authentication = authentication
         }
-        chain?.doFilter(request, resposne)
+        chain?.doFilter(request, response)
     }
 
     private fun resolveToken(request: HttpServletRequest): String? {
