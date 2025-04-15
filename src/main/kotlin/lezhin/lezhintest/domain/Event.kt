@@ -13,6 +13,6 @@ data class Event(
     val isOngoing: Boolean
         get() {
             val now = LocalDateTime.now()
-            return startAt.isBefore(now) && endAt.isBefore(now)
+            return startAt.isBefore(now) && endAt.isAfter(now)
         }
 }
