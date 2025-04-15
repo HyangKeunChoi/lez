@@ -34,8 +34,7 @@ class RandomController(
         val ops = redisTemplate.opsForZSet()
         val random = Random()
 
-        // 샘플 웹툰 ID와 구매 횟수 (스코어) 생성
-        for (i in 1..20) { // 20개의 샘플 웹툰 데이터 생성 (조절 가능)
+        for (i in 1..20) {
             val webtoonId = "webtoon:$i"
             val randomCount = random.nextInt(100) + 1 // 1 ~ 100 사이의 랜덤 구매 횟수
             ops.add(POPULAR_PURCHASED_CACHE_KEY_PREFIX, webtoonId, randomCount.toDouble())

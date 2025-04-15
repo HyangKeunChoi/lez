@@ -43,7 +43,6 @@ internal class WebtoonControllerTest {
 
     @BeforeEach
     fun setUp() {
-        // Spring Security 인증 및 JWT 토큰 생성
         val authenticationToken = UsernamePasswordAuthenticationToken("1", "1")
         val authentication = authenticationManagerBuilder.`object`.authenticate(authenticationToken)
         SecurityContextHolder.getContext().authentication = authentication
